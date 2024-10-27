@@ -8,6 +8,11 @@ const { protect } = require('../middleware/authMiddleware');
 router.post('/:productId', protect, async (req, res) => {
     const { rating, comment } = req.body;
 
+    // Basic validation
+    if (!rating || !comment) {
+        return res.status(400).json({ message: 'Rating and comment are required' });
+    }
+
     try {
         const product = await Product.findById(req.params.productId);
         if (!product) {
@@ -24,7 +29,25 @@ router.post('/:productId', protect, async (req, res) => {
         await review.save();
         res.status(201).json({ message: 'Review submitted successfully', review });
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        console.error(err); // Log the error for debugging
+        res.status(500).json({ message: 'Server error, please try again later' });
+    }
+});
+
+// Get all reviews for a product
+router.get('/:productId', async (req, res) => {
+    try {
+        const reviews = await Review.find({ productId: req.params.productId })
+            .populate('userId', 'username'); // Populate userId with username
+
+        if (!reviews.length) {
+            return res.status(404).json({ message: 'No reviews found for this product' });
+        }
+
+        res.json(reviews);
+    } catch (err) {
+        console.error(err); // Log the error for debugging
+        res.status(500).json({ message: 'Server error, please try again later' });
     }
 });
 
