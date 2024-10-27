@@ -2,12 +2,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-require('dotenv').config();
+require('dotenv').config(); // Load environment variables
 
 // Import Routes
 const productRoutes = require('./routes/productRoutes');
 const userRoutes = require('./routes/userRoutes');
 const clickRoutes = require('./routes/clickRoutes');
+const reviewRoutes = require('./routes/reviewRoutes'); // Import review routes
 
 // Initialize App
 const app = express();
@@ -28,6 +29,7 @@ mongoose.connect(process.env.MONGO_URI, {
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/clicks', clickRoutes);
+app.use('/api/reviews', reviewRoutes); // Use review routes
 
 // Start Server
 const PORT = process.env.PORT || 5000;
