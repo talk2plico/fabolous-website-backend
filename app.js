@@ -10,6 +10,7 @@ const userRoutes = require('./routes/userRoutes');
 const clickRoutes = require('./routes/clickRoutes');
 const reviewRoutes = require('./routes/reviewRoutes'); // Import review routes
 const wishlistRoutes = require('./routes/wishlistRoutes');
+const newsletterRoutes = require('./routes/newsletterRoutes');
 
 // Initialize App
 const app = express();
@@ -32,6 +33,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/clicks', clickRoutes);
 app.use('/api/reviews', reviewRoutes); // Use review routes
 app.use('/api/wishlist', wishlistRoutes); // use review routes
+app.use('/api/newsletter', newsletterRoutes); // use newsletter routes
 
 // Start Server
 const PORT = process.env.PORT || 5000;
